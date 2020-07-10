@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <!--Staging no cache-->
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--Titles-->
+    <title>Colorcitos</title>
+    <meta property="og:title" content="Colorcitos" />
+    <meta name="twitter:title" content="Colorcitos" />
+
+    <!--Descriptions-->
+    <meta name="description" content="Descripcion_bonita" />
+    <meta property="og:description" content="Descripcion_bonita" />
+    <meta name="twitter:description" content="Descripcion_bonita" />
+
+    <!--Icons-->
+    <!-- 32 || 64 -->
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="https://leandromuzzupappa.github.io/assets/images/favicon.png"
+    />
+    <!-- 128 || 256 -->
+    <link
+      rel="apple-touch-icon"
+      href="https://leandromuzzupappa.github.io/assets/images/largeFavicon.png"
+    />
+    <meta
+      property="og:image"
+      content="https://leandromuzzupappa.github.io/assets/images/largeFavicon.png"
+    />
+    <meta
+      name="twitter:image"
+      content="https://leandromuzzupappa.github.io/assets/images/largeFavicon.png"
+    />
+
+    <!-- Twitter card -->
+    <meta name="twitter:site" content="@lennydincognito" />
+    <meta name="twitter:creator" content="@lennydincognito" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!--CSS-->
+    <link rel="stylesheet" href="./assets/css/main.min.css" />
+
+    <!--Fonts-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--Private keys-->
+
+    <!--Analytics-->
+    <!--Cambiar UAID desde aca  UA-84919127-3  -->
+
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-84919127-3"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+
+      function gtag () {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+
+      gtag('config', 'UA-84919127-3')
+    </script>
+  </head>
+  <body>
+    <div class="colors"></div>
+    <div class="panel">
+      <div class="panel-library">
+        <button><i class="fas fa-book-open"></i></button>
+        <p>Library</p>
+      </div>
+      <div class="panel-generate">
+        <button><i class="fas fa-sync"></i></button>
+        <p>Generate</p>
+      </div>
+      <div class="panel-save">
+        <button><i class="fas fa-save"></i></button>
+        <p>Save</p>
+      </div>
+    </div>
+    <div class="copy-container">
+      <div class="copy-popup">
+        <h3>
+          Copied to clipboard
+        </h3>
+        <h4>
+          &#128077;
+        </h4>
+      </div>
+    </div>
+    <div class="save-container">
+      <div class="save-popup">
+        <button class="save--close">X</button>
+        <h4>Give a name to your pallete</h4>
+        <input type="text" maxlength="35" class="save--name" />
+        <button type="submit" class="save--submit">Save</button>
+      </div>
+    </div>
+    <div class="library-container">
+      <div class="library-popup">
+        <button class="library--close">X</button>
+        <h4>Pick your library</h4>
+      </div>
+    </div>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"
+      integrity="sha512-M+hXwltZ3+0nFQJiVke7pqXY7VdtWW2jVG31zrml+eteTP7im25FdwtLhIBTWkaHRQyPrhO2uy8glLMHZzhFog=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"
+      integrity="sha512-yocoLferfPbcwpCMr8v/B0AB4SWpJlouBwgE0D3ZHaiP1nuu5djZclFEIj9znuqghaZ3tdCMRrreLoM8km+jIQ=="
+      crossorigin="anonymous"
+    ></script>
+    <script src="./assets/scripts/app.js"></script>
+  </body>
+</html>
