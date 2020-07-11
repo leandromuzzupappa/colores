@@ -20,9 +20,9 @@ const screenRestTop = () => {
 window.addEventListener('load', screenRestTop);
 window.addEventListener('resize', screenRestTop);
 
-// Generando template colores
+// Creando template colores
 const colors = document.querySelector('.colors');
-const colorsQTY = 1;
+const colorsQTY = 5;
 const colorTemplate = (index) => {
     return `<div class="color">
     <h2>
@@ -70,3 +70,35 @@ const colorTemplate = (index) => {
 for (let i = 0; i < colorsQTY; i++) {
     colors.innerHTML += colorTemplate(i);
 }
+
+const colorDivs = document.querySelectorAll('.color');
+const generateBtn = document.querySelector('.generate');
+const sliders = document.querySelectorAll('input[type="range"]');
+const currentHexes = document.querySelectorAll('.color h2');
+
+// Generando el hex
+const generateHex = () => chroma.random();
+
+const randomColor = () => {
+    colorDivs.forEach((div, index) => {
+        console.log('aa');
+
+        const hexText = div.children[0];
+        const randomColor = generateHex();
+
+        div.style.background = randomColor;
+        hexText.innerText = randomColor;
+
+        // Checkeando contraste
+        checkTextContrast(randomColor, hexText);
+
+    })
+}
+
+// Checkeando el contraste del texto
+function checkTextContrast(color, text) {
+    const luminance = chroma(color).luminance();
+    luminance > .5 ? text.style.color = '#333333' : text.style.color = '#f7f7f7';
+}
+
+randomColor();
