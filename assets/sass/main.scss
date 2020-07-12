@@ -22,7 +22,7 @@ svg {
 .colors {
     min-height: 80vh;
     display: flex;
-    color: #e8e8e8;
+    color: #a8a8d6;
 
     .color {
         height: 100vh;
@@ -64,36 +64,47 @@ svg {
             flex-direction: column;
             position: absolute;
             bottom: 0%;
-            background: #dee7ff;
+            background: #ffffff;
             padding: 1rem;
             width: 80%;
             border-radius: 1rem;
             transform: translateY(100px);
             transition: all .5s ease-in-out;
-            pointer-events: none;
-            overflow: hidden;
+            //pointer-events: none;
+            //overflow: hidden;
             opacity: 0;
 
             &.active {
                 opacity: 1;
-                transform: translateY(-150px);
+                transform: translateY(-180px);
                 pointer-events: all;
             }
 
             & button {
                 position: absolute;
-                top: 0px;
-                right: 0px;
-                padding: .6rem;
+                bottom: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+                padding: .6rem .8rem;
                 background: #112049;
                 color: #ffffff;
                 border: none;
-                border-bottom-left-radius: 1rem;
+                border-radius: 1.2rem;
                 cursor: pointer;
 
                 &:hover {
                     background: #1640b4;
                 }
+            }
+
+            &>input[type="range"] {
+                -webkit-appearance: none;
+                margin: 1rem 0rem;
+                width: 100%;
+                position: relative;
+                border-radius: 1rem;
+                cursor: pointer;
+                pointer-events: all;
             }
         }
 
