@@ -20,9 +20,15 @@ const screenRestTop = () => {
 window.addEventListener('load', screenRestTop);
 window.addEventListener('resize', screenRestTop);
 
+// Traer cantidad de colores por url
+const getQTYFromURL = () => {
+  let url = new URL(window.location.href);
+  return url.searchParams.get('colors');
+}
+
 // Creando template colores
 const colors = document.querySelector('.colors');
-const colorsQTY = 2;
+const colorsQTY = getQTYFromURL() === null ? 2 : getQTYFromURL();
 const colorTemplate = (index) => {
     return `<div class="color">
     <h2>
@@ -32,7 +38,7 @@ const colorTemplate = (index) => {
       <button class="adjust"><i class="fas fa-sliders-h"></i></button>
       <button class="lock"><i class="fas fa-lock-open"></i></button>
     </div>
-    <div class="sliders active">
+    <div class="sliders">
       <button class="close-adjustment">X</button>
       <span>Hue</span>
       <input
@@ -75,25 +81,39 @@ for (let i = 0; i < colorsQTY; i++) {
 // este completamente cargado
 window.addEventListener('load', ()=> {
   const colorDivs = document.querySelectorAll('.color');
-  const generateBtn = document.querySelector('.generate');
+  const generateBtn = document.querySelector('.panel-generate button');
   const sliders = document.querySelectorAll('input[type="range"]');
   const currentHexes = document.querySelectorAll('.color h2');
+  const pupContainer = document.querySelector('.copy-container');
+  const adjustBtn = document.querySelectorAll('.adjust');
+  const closeAdjustments = document.querySelectorAll('.close-adjustment');
+  const slidersContainer = document.querySelectorAll('.sliders');
+  const lockBtn = document.querySelectorAll('.lock');
+  const controls = document.querySelectorAll('.controls');
   let initialColors;
 
   // Generando el hex
   const generateHex = () => chroma.random();
 
+  // Generar nuevos colores
+  generateBtn.addEventListener('click', randomColor);
+
   function randomColor (){
       initialColors = [];
       colorDivs.forEach((div, index) => {
-
+          console.log(div);
           let hexText = div.children[0];
           let randomColor = generateHex();
 
-          // Agrego el color a un array
-          // para cuando cambie el brillo no
-          // tome el color del div
-          initialColors.push(chroma(randomColor).hex());
+          if (div.classList.contains('locked')) {
+            initialColors.push(hexText.innerText);
+            return;
+          } else {
+            // Agrego el color a un array
+            // para cuando cambie el brillo no
+            // tome el color del div
+            initialColors.push(chroma(randomColor).hex());
+          }
 
           div.style.backgroundColor = randomColor;
           hexText.innerText = randomColor;
@@ -110,8 +130,13 @@ window.addEventListener('load', ()=> {
 
           colorizeSliders(color, hue, brightness, saturation);
       });
+      resetInputs();
 
-      console.log(initialColors);
+      // Check contrast buttons
+      adjustBtn.forEach((btn, index)=>{
+        checkTextContrast(initialColors[index], btn);
+        checkTextContrast(initialColors[index], lockBtn[index]);
+      })
   }
 
   // Checkeando el contraste del texto
@@ -163,7 +188,8 @@ window.addEventListener('load', ()=> {
         .set('hsl.h', hue.value);
 
     colorDivs[index].style.backgroundColor = color;
-
+    // live update sliders
+    colorizeSliders(color, hue, brightness, saturation);
   }
 
   function updateTextUI(index) {
@@ -180,6 +206,92 @@ window.addEventListener('load', ()=> {
       checkTextContrast(color, icon);
     }
   }
+
+  function resetInputs () {
+    // Recibe el objecto, el data atributo de los sliders y
+    // un int del hsl. h -> 0, s -> 1, l -> 2
+    const setInputValue = (object, dataSlider, hslIndex) => {
+      const inputColor = initialColors[object.getAttribute(dataSlider)];
+      const inputValue = chroma(inputColor).hsl()[hslIndex];
+      object.value = Math.floor(inputValue * 100) / 100;
+    }
+
+    sliders.forEach(slider => {
+      if (slider.name === 'hue') {
+        setInputValue(slider, 'data-hue', 0);
+      }
+      if (slider.name === 'brightness') {
+        setInputValue(slider, 'data-bright', 1);
+      }
+      if (slider.name === 'saturation') {
+        setInputValue(slider, 'data-sat', 2);
+      }
+    })
+  }
+
+  // Copiar
+  currentHexes.forEach(hex => {
+    hex.addEventListener('click', ()=>{
+      copyToClipboard(hex);
+    })
+  })
+
+  function copyToClipboard(hex) {
+    // Creo un textarea y le inserto el hex
+    const el = document.createElement('textarea');
+    el.value = hex.innerText;
+    document.body.appendChild(el);
+
+    // Copio el value
+    el.select();
+    document.execCommand('copy');
+
+    // Borro el textarea
+    document.body.removeChild(el);
+
+    const pup = pupContainer.children[0];
+    pupContainer.classList.add('active');
+    pup.classList.add('active');
+
+    // Cerrar pup
+    setTimeout(()=>{
+      pupContainer.classList.remove('active');
+      pup.classList.remove('active');
+    }, 700);
+  }
+
+  // Abrir el panel de ajustes de color
+  adjustBtn.forEach((btn, index)=>{
+    btn.addEventListener('click', ()=>{
+      slidersContainer[index].classList.add('active');
+      controls[index].classList.add('active');
+    })
+  })
+  closeAdjustments.forEach((btn, index)=>{
+    btn.addEventListener('click', ()=>{
+      slidersContainer[index].classList.remove('active');
+      controls[index].classList.remove('active');
+    })
+  })
+
+  // Lock
+  lockBtn.forEach((button, index)=>{
+    button.addEventListener('click', ()=>{
+      let icon = button.children[0];
+      //colorDivs[index].classList.add('locked');
+
+      if (colorDivs[index].classList.contains('locked')) {
+        colorDivs[index].classList.remove('locked');
+        icon.classList.remove('fa-lock');
+        icon.classList.add('fa-lock-open');
+      } else {
+        colorDivs[index].classList.add('locked');
+        icon.classList.remove('fa-lock-open');
+        icon.classList.add('fa-lock');
+      }
+
+    })
+  })
 
   randomColor();
 })
